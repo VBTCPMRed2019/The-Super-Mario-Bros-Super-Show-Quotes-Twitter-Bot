@@ -2,7 +2,8 @@
 #or SMBSSQTB for short
 
 from random import *
-
+import datetime
+import os
 #Quotes come from https://www.mariowiki.com/List_of_The_Super_Mario_Bros._Super_Show!_quotes
 
 #Mario's quotes
@@ -57,9 +58,8 @@ mario = ['"Hey paisanos! It\'s The Super Mario Bros. Super Show!" - Opening Cred
          '"He\'s showing a plumber how a garbage disposal works?" - "Star Koopa"',
          '"Watch it, gang! His toes are loaded!" - "Robo Koopa"']
 
-
-luigi = ['Uwu',
-         '"I can\'t I\'m allergic to mountains!" - "The Bird! The Bird!"',
+#Luigis Quotes
+luigi = ['"I can\'t I\'m allergic to mountains!" - "The Bird! The Bird!"',
          '"P-polar bear? Lunch!?" - "The Bird! The Bird!"',
          '"Hey, Super Mario! Super-cook their goose!" - "The Bird! The Bird!"',
          '(*sobs*) He was the nicest little fungus I ever knew!" - "The Bird! The Bird!"',
@@ -75,7 +75,7 @@ luigi = ['Uwu',
          '"I told him that he wants really yummy carpet to head for Koopa." - Mario\'s Magic Carpet',
          '"So, what do we do now, Mr. Big Time Gambler?" - "Rolling Down the River"',
          '"Okay, Mario. One all ya got, coming up!" - "Rolling Down the River"',
-         '"He\'s too busy eating, Mario! He\'s your kind of horse." - "The Great Gladiator Gig"',
+         '"He\'s too busy eating, Mario! He\'s your kind of horse." - "The Great Gladiator Gig"', "Uwu",
          '"Hey! That\'s my brother Mario, you three-faced double-crosser!" - "The Great Gladiator Gig"',
          '"Leapin\' lasagna! This room\'s bigger than the Brooklyn Public Library!" - "Mario and the Beanstalk"',
          '"I th-think I liked it better when we outnumbered them!" - "The Great BMX Race"',
@@ -112,9 +112,8 @@ luigi = ['Uwu',
          '"Bein\' garbage really makes a guy feel down in the dumps!" - "Star Koopa"',
          '"Koopa was scary enough when he was just a slimy reptile!" - "Robo Koopa"']
 
-
-bowser = ['oWO',
-          '"Koopa Pack, attack!" - Various episodes',
+#Bowsers Quotes
+bowser = ['"Koopa Pack, attack!" - Various episodes',
           '"He who koops and runs away lives to koop another day!" - Various episodes',
           '"Watch it soldier, when I want my feet licked, I\'ll ask for it! {quickly} I want my feet licked." - "The Bird! The Bird!"',
           '"Like my grandfather Poopa La Koopa always said: "Cheat, beat, and be merry!" - "Butch Mario & the Luigi Kid"',
@@ -129,7 +128,7 @@ bowser = ['oWO',
           '"Fum fee fi fo! I smell the brothers Mario!" - "Mario and the Beanstalk"',
           '"That goose is gonna smother you brothers!" - "Mario and the Beanstalk"',
           '"OK, that does it! You\'re all gonna be Koopatized!" - "The Great BMX Race"',
-          '"There\'ll be other crooked races and other ways to cheat!" - "The Great BMX Race"',
+          '"There\'ll be other crooked races and other ways to cheat!" - "The Great BMX Race"', 'owO',
           '"You\'re breaking my heart, princess! Now, get to work! Now that you and these Quirks are my slaves, I got other planets to plunder! *laughs*" - "Stars in Their Eyes"',
           '"You call that music? Stop that racket! I hate that music! I hate spaghetti! I hate Quirks! I hate those faucet freaks!" - "Stars in Their Eyes"',
           '"Alright! Which one of you messed up? Who ruined all my sneaky underhanded plans?" - "Jungle Fever"',
@@ -181,6 +180,7 @@ bowser = ['oWO',
           '"More! I want more! More!" - "The Great Gold Coin Rush"',
           '"Make way for the big daddio, the headman, the new king of Sock Hop Land: Koopa, the Kool!" "Elvin Lives"',
           '"Come back here! We got a date for the prom!" "Elvin Lives"',
+          'Ẏ̸̨ō̴̮ǘ̴̳ ̸͍͛g̶͓͗o̴̖̔t̶̳̽ ̴̡̆t̷̠̚h̸͍̾é̷̫ ̷̜͗d̵̺͊ư̴͚d̶̥͂.̶̔ͅ',
           '"No way, José! They\'ll never catch the Koopilac! I got dual carbs! I got four on the floor!" "Elvin Lives"',
           '"When you hurt Koopa\'s nose, you\'ve blown it!" - "Plummers Academy"',
           '"In just a few minutes, the bidding for Princess Toadstool and her slimy friend Toad will begin! So drink up your Koopa Kola!" - "Karate Koopa"',
@@ -236,18 +236,26 @@ toad = ['"Hey! Let me go!" -"The Bird! The Bird!"',
         '"Koopa you stoopa! Watch it with the Bob-Ombs!" - "The Great Gold Coin Rush"',
         '"By order of his most royal repulsiveness, the reptile Sheriff of Koopingham! The castle road shall require a toll! In the amount of: One wagon full of gold coins!" - "Hooded Robin and His Mario Men"']
 
-          
+#Peach's quotes
 peach = ['"Oh no! Poor Toad! Bring him back you dimwitted Birdo!" - "The Bird! The Bird!"',
          '"Look! The Birdo took Toad to the highest peak! Please, Mario! Toad saved my life a hundred times! We\'ve got to save his!" - "The Bird! The Bird!"',
          '"(*Teary eyed*) Goodbye Mario, goodbye Luigi." - "Brooklyn Bound"',
          '"Mario! {Kisses him} Luigi! {Kisses him} You came back!" - "Brooklyn Bound"',
          '"(*sobs*) I always cry at weddings!" - "Mario and Joliet"',
          '"What was that about pancakes and maple syrup?" - "Quest for Pizza"']
+
+#Add all the quotes together in one big list so it is easy to iterate over
 quotes = mario + luigi + bowser + toad + peach
 
 def GimmeQuote():
-    random_quote = choice(quotes)
-    return random_quote
-
-print(GimmeQuote())
+    while True:
+        random_quote = choice(quotes) #Choose a random quote from the all of the quotes
+        if len(random_quote) < 280: #Make sure the quote has enough characters to be posted into Twitter. 280 is the max.
+            with open("UsedQuotes.txt") as File: #Open a file that was created in SuperShowBot
+                if random_quote not in File.read(): #Check if the quote is in the file, if it is not loop back and choose another quote.
+                    File = open("UsedQuotes.txt", "a") #Open the file and append to it.
+                    Filetxt = (random_quote) 
+                    File.write(Filetxt + "\n") #Add the random quote and go to the next line
+                    return random_quote #Return the quote to SuperShowBot
+                    break
          
