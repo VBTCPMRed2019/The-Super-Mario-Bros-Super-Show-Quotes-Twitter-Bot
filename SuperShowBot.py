@@ -2,7 +2,6 @@ from credentials import *
 import tweepy
 import QuoteMod
 from time import sleep as wait
-import os
 import datetime
 
 # This is the part where information, from an external module, is entered to allow the bot to be used
