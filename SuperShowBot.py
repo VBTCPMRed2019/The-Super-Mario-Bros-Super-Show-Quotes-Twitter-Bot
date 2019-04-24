@@ -26,12 +26,14 @@ while True:
         if line_count > 230: 
             ClearFile(File)
         wait(80)
-        
-# A future idea where the bot will respond when it is @'d
-    #tweets = api.search("@SmbssQ")
-    #if tweets == True:
-        #screen_name = s.user.screen_name
-        #message = ("@",screen_name, QuoteMod.GimmeQuote())
-        #api.update_status(message)
-        #tweets = ''
-        #wait(60)
+    tweets = api.search("@SmbssQ") #Searches for the keywords "@SmbssQ", at the moment it does not work.
+    if tweets == True:
+        tweet_list = ['@smbssq', '@SMBSSQ', '@SmbssQ']
+        for s in tweets:
+            for i in tweet_list:
+                if i == s.text:
+                    screen_name = s.user.screen_name
+                    message = "@{0}\n{1}".format(screen_name, QuoteMod.GimmeQuote())
+                    print(message)
+                    api.update_status(message, s.id)        
+
