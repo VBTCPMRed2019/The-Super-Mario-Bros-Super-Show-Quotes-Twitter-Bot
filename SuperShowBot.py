@@ -13,8 +13,11 @@ def ClearFile(File): #Erases the content of the File, is only called when there 
     File.seek(0)
     File.truncate()
     
-File = open("UsedQuotes.txt", "w+") #Opens "UsedQuotes.txt" or creates it if it does not exist
-
+try: #Opens the file if it exist, if the file does not exist it creates it.
+    File = open("UsedQuotes.txt", "r")
+except FileNotFoundError:
+    File = open("UsedQuotes.txt", "w+")
+    
 # Perpetual loop where it waits for certain times to send a tweet/update its status
 while True:
     time = datetime.datetime.now()
@@ -26,14 +29,19 @@ while True:
         if line_count > 230: 
             ClearFile(File)
         wait(80)
-    tweets = api.search("@SmbssQ") #Searches for the keywords "@SmbssQ", at the moment it does not work.
-    if tweets == True:
-        tweet_list = ['@smbssq', '@SMBSSQ', '@SmbssQ']
-        for s in tweets:
-            for i in tweet_list:
-                if i == s.text:
-                    screen_name = s.user.screen_name
-                    message = "@{0}\n{1}".format(screen_name, QuoteMod.GimmeQuote())
-                    print(message)
-                    api.update_status(message, s.id)        
+        
+File.close()
+
+'''
+tweets = api.search("@SmbssQ") #Searches for the keywords "@SmbssQ", at the moment it does not work.
+if tweets == True:
+    tweet_list = ['@smbssq', '@SMBSSQ', '@SmbssQ']
+    for s in tweets:
+        for i in tweet_list:
+            if i == s.text:
+                screen_name = s.user.screen_name
+                message = "@{0}\n{1}".format(screen_name, QuoteMod.GimmeQuote())
+                print(message)
+                api.update_status(message, s.id)   
+  '''
 
