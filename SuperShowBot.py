@@ -1,8 +1,11 @@
 from credentials import *
 import tweepy
 import QuoteMod
-from time import sleep as wait
+import time
 import datetime
+
+localtime = time.asctime(time.localtime(time.time())) #Prints when the program was initially ran
+print('Program started on:', localtime)
 
 # This is the part where information, from an external module, is entered to allow the bot to be used
 authority = tweepy.OAuthHandler(consumer_key, consumer_secret) 
@@ -26,9 +29,9 @@ while True:
         message = QuoteMod.GimmeQuote()
         print(message)
         api.update_status(message)
-        if line_count > 230: 
-            ClearFile(File)
-        wait(80)
+    if line_count > 230: 
+        File = open("UsedQuotes.txt", "w+")
+    time.sleep(80)
         
 File.close()
 
